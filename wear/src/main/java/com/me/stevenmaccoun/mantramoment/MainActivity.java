@@ -1,17 +1,18 @@
 package com.me.stevenmaccoun.mantramoment;
 
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.wearable.activity.WearableActivity;
 import android.support.wearable.view.BoxInsetLayout;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Locale;
 
-public class MainActivity extends WearableActivity {
+public class MainActivity extends WearableActivity implements View.OnClickListener {
 
     private static final SimpleDateFormat AMBIENT_DATE_FORMAT =
             new SimpleDateFormat("HH:mm", Locale.US);
@@ -23,8 +24,16 @@ public class MainActivity extends WearableActivity {
     private TextView countDownTimerT;
     private Button countdownB;
 
+    private RepeatCountdownTimer repeatCountdownTimer;
     private long startTimeMillis = 100000;
-    private static final SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+    private static final long countdownIntervalMillis = 1000;
+    private final SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+    private enum TIMER_BUTTON_STATE
+    {
+        START,
+        RESET
+    };
+    private TIMER_BUTTON_STATE currentButtonState;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,9 +44,57 @@ public class MainActivity extends WearableActivity {
         //mContainerView = (BoxInsetLayout) findViewById(R.id.container);
         //mClockView = (TextView) findViewById(R.id.clock);
 
+
         countDownTimerT = (TextView) this.findViewById(R.id.countdownTimer);
         countDownTimerT.setText(String.valueOf(sdf.format(startTimeMillis)));
+        repeatCountdownTimer = new RepeatCountdownTimer(startTimeMillis, countdownIntervalMillis);
+
         countdownB = (Button) this.findViewById(R.id.button);
+        countdownB.setOnClickListener(this);
+        currentButtonState = TIMER_BUTTON_STATE.START;
+        countdownB.setText(currentButtonState.toString());
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (currentButtonState)
+        {
+            case START:
+            {
+                repeatCountdownTimer.start();
+                currentButtonState = TIMER_BUTTON_STATE.RESET;
+                countdownB.setText(currentButtonState.toString());
+                break;
+            }
+
+            case RESET:
+            {
+                repeatCountdownTimer.cancel();
+                currentButtonState = TIMER_BUTTON_STATE.START;
+                countdownB.setText(currentButtonState.toString());
+                countDownTimerT.setText(String.valueOf(sdf.format(startTimeMillis)));
+                break;
+            }
+        }
+    }
+
+    public class RepeatCountdownTimer extends CountDownTimer {
+
+
+        public RepeatCountdownTimer(long millisInFuture, long countDownInterval) {
+            super(millisInFuture, countDownInterval);
+        }
+
+        @Override
+        public void onTick(long millisUntilFinished) {
+            countDownTimerT.setText(sdf.format(millisUntilFinished));
+        }
+
+        @Override
+        public void onFinish() {
+            this.start();
+        }
     }
 
     @Override
