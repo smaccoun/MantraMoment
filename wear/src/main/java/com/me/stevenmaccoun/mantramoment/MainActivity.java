@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.wearable.activity.WearableActivity;
 import android.support.wearable.view.BoxInsetLayout;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
@@ -19,15 +20,24 @@ public class MainActivity extends WearableActivity {
     private TextView mTextView;
     private TextView mClockView;
 
+    private TextView countDownTimerT;
+    private Button countdownB;
+
+    private long startTimeMillis = 100000;
+    private static final SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setAmbientEnabled();
 
-        mContainerView = (BoxInsetLayout) findViewById(R.id.container);
-        mTextView = (TextView) findViewById(R.id.text);
-        mClockView = (TextView) findViewById(R.id.clock);
+        //mContainerView = (BoxInsetLayout) findViewById(R.id.container);
+        //mClockView = (TextView) findViewById(R.id.clock);
+
+        countDownTimerT = (TextView) this.findViewById(R.id.countdownTimer);
+        countDownTimerT.setText(String.valueOf(sdf.format(startTimeMillis)));
+        countdownB = (Button) this.findViewById(R.id.button);
     }
 
     @Override
@@ -49,16 +59,16 @@ public class MainActivity extends WearableActivity {
     }
 
     private void updateDisplay() {
-        if (isAmbient()) {
-            mContainerView.setBackgroundColor(getResources().getColor(android.R.color.black));
-            mTextView.setTextColor(getResources().getColor(android.R.color.white));
-            mClockView.setVisibility(View.VISIBLE);
-
-            mClockView.setText(AMBIENT_DATE_FORMAT.format(new Date()));
-        } else {
-            mContainerView.setBackground(null);
-            mTextView.setTextColor(getResources().getColor(android.R.color.black));
-            mClockView.setVisibility(View.GONE);
-        }
+//        if (isAmbient()) {
+//            mContainerView.setBackgroundColor(getResources().getColor(android.R.color.black));
+//            mTextView.setTextColor(getResources().getColor(android.R.color.white));
+//            mClockView.setVisibility(View.VISIBLE);
+//
+//            mClockView.setText(AMBIENT_DATE_FORMAT.format(new Date()));
+//        } else {
+//            mContainerView.setBackground(null);
+//            mTextView.setTextColor(getResources().getColor(android.R.color.black));
+//            mClockView.setVisibility(View.GONE);
+//        }
     }
 }
