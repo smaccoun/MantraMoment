@@ -3,6 +3,7 @@ package com.me.stevenmaccoun.mantramoment;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.support.wearable.activity.WearableActivity;
 import android.support.wearable.view.BoxInsetLayout;
 import android.util.Log;
@@ -101,6 +102,13 @@ public class MainActivity extends WearableActivity implements View.OnClickListen
 
             Toast toast = Toast.makeText(context, text, duration);
             toast.show();
+
+            Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+            long[] vibrationPattern = {0, 500, 50, 300};
+            //-1 - don't repeat
+            final int indexInPatternToRepeat = -1;
+            vibrator.vibrate(vibrationPattern, indexInPatternToRepeat);
+
             this.start();
         }
     }
