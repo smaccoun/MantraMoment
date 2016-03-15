@@ -12,13 +12,16 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 
 public class MainActivity extends WearableActivity implements View.OnClickListener {
 
     private static final SimpleDateFormat AMBIENT_DATE_FORMAT =
-            new SimpleDateFormat("HH:mm", Locale.US);
+            new SimpleDateFormat("HH:mm:ss", Locale.US);
 
     private BoxInsetLayout mContainerView;
     private TextView mTextView;
@@ -28,9 +31,9 @@ public class MainActivity extends WearableActivity implements View.OnClickListen
     private Button countdownB;
 
     private RepeatCountdownTimer repeatCountdownTimer;
-    private long startTimeMillis = 15000;
+    private long startTimeMillis = 10000;
     private static final long countdownIntervalMillis = 1000;
-    private final SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+    private DateFormat sdf = new SimpleDateFormat("HH:mm:ss");
     private enum TIMER_BUTTON_STATE
     {
         START,
@@ -46,10 +49,12 @@ public class MainActivity extends WearableActivity implements View.OnClickListen
 
         //mContainerView = (BoxInsetLayout) findViewById(R.id.container);
         //mClockView = (TextView) findViewById(R.id.clock);
-
+        sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+        Date d = new Date(startTimeMillis);
+        String startTime = sdf.format(d);
 
         countDownTimerT = (TextView) this.findViewById(R.id.countdownTimer);
-        countDownTimerT.setText(String.valueOf(sdf.format(startTimeMillis)));
+        countDownTimerT.setText(String.valueOf(startTime));
         repeatCountdownTimer = new RepeatCountdownTimer(startTimeMillis, countdownIntervalMillis);
 
         countdownB = (Button) this.findViewById(R.id.button);
