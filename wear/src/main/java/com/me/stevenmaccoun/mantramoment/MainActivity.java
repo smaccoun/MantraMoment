@@ -1,5 +1,6 @@
 package com.me.stevenmaccoun.mantramoment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.wearable.activity.WearableActivity;
@@ -8,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Locale;
@@ -25,7 +27,7 @@ public class MainActivity extends WearableActivity implements View.OnClickListen
     private Button countdownB;
 
     private RepeatCountdownTimer repeatCountdownTimer;
-    private long startTimeMillis = 100000;
+    private long startTimeMillis = 15000;
     private static final long countdownIntervalMillis = 1000;
     private final SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
     private enum TIMER_BUTTON_STATE
@@ -93,6 +95,12 @@ public class MainActivity extends WearableActivity implements View.OnClickListen
 
         @Override
         public void onFinish() {
+            Context context = getApplicationContext();
+            CharSequence text = "I EXIST";
+            int duration = Toast.LENGTH_SHORT;
+
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
             this.start();
         }
     }
