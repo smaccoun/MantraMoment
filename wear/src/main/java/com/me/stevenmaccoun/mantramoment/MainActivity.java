@@ -76,6 +76,7 @@ public class MainActivity extends WearableActivity implements View.OnClickListen
                 repeatCountdownTimer.cancel();
                 currentButtonState = TIMER_BUTTON_STATE.START;
                 countdownB.setText(currentButtonState.toString());
+                countDownTimerT.setText(String.valueOf(sdf.format(0)));
                 countDownTimerT.setText(String.valueOf(sdf.format(startTimeMillis)));
                 break;
             }
@@ -97,7 +98,7 @@ public class MainActivity extends WearableActivity implements View.OnClickListen
         @Override
         public void onFinish() {
             Context context = getApplicationContext();
-            CharSequence text = "I EXIST";
+            CharSequence text = MantraGenerator.getRandomDefaultMantra();
             int duration = Toast.LENGTH_SHORT;
 
             Toast toast = Toast.makeText(context, text, duration);
