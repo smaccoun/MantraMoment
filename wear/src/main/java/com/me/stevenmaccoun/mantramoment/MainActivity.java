@@ -29,6 +29,7 @@ public class MainActivity extends WearableActivity implements View.OnClickListen
 
     private TextView countDownTimerT;
     private Button countdownB;
+    private Button plusThirtyB;
 
     private RepeatCountdownTimer repeatCountdownTimer;
     private long startTimeMillis = 10000;
@@ -62,30 +63,47 @@ public class MainActivity extends WearableActivity implements View.OnClickListen
         currentButtonState = TIMER_BUTTON_STATE.START;
         countdownB.setText(currentButtonState.toString());
 
+        plusThirtyB = (Button) this.findViewById(R.id.button2);
+        plusThirtyB.setOnClickListener(this);
+
     }
 
     @Override
     public void onClick(View v) {
-        switch (currentButtonState)
+        switch (v.getId())
         {
-            case START:
+            case (R.id.button):
             {
-                repeatCountdownTimer.start();
-                currentButtonState = TIMER_BUTTON_STATE.RESET;
-                countdownB.setText(currentButtonState.toString());
+                switch (currentButtonState)
+                {
+                    case START:
+                    {
+                        repeatCountdownTimer.start();
+                        currentButtonState = TIMER_BUTTON_STATE.RESET;
+                        countdownB.setText(currentButtonState.toString());
+                        break;
+                    }
+
+                    case RESET:
+                    {
+                        resetTimer();
+                        break;
+                    }
+                }
+
                 break;
             }
 
-            case RESET:
+            case (R.id.button2):
             {
                 repeatCountdownTimer.cancel();
-                currentButtonState = TIMER_BUTTON_STATE.START;
-                countdownB.setText(currentButtonState.toString());
-                countDownTimerT.setText(String.valueOf(sdf.format(0)));
-                countDownTimerT.setText(String.valueOf(sdf.format(startTimeMillis)));
+                startTimeMillis += 30000;
+                repeatCountdownTimer = new RepeatCountdownTimer(startTimeMillis, countdownIntervalMillis);
+                resetTimer();
                 break;
             }
         }
+
     }
 
     public class RepeatCountdownTimer extends CountDownTimer {
@@ -117,6 +135,13 @@ public class MainActivity extends WearableActivity implements View.OnClickListen
 
             this.start();
         }
+    }
+
+    public void resetTimer(){
+        repeatCountdownTimer.cancel();
+        currentButtonState = TIMER_BUTTON_STATE.START;
+        countdownB.setText(currentButtonState.toString());
+        countDownTimerT.setText(String.valueOf(sdf.format(startTimeMillis)));
     }
 
     @Override
