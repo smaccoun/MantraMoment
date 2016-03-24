@@ -30,6 +30,7 @@ public class MainActivity extends WearableActivity implements View.OnClickListen
     private TextView countDownTimerT;
     private Button countdownB;
     private Button plusThirtyB;
+    private TextView currentMantraT;
 
     private RepeatCountdownTimer repeatCountdownTimer;
     private long startTimeMillis = 10000;
@@ -66,7 +67,10 @@ public class MainActivity extends WearableActivity implements View.OnClickListen
         plusThirtyB = (Button) this.findViewById(R.id.button2);
         plusThirtyB.setOnClickListener(this);
 
+        currentMantraT = (TextView) this.findViewById(R.id.currentMantra);
+
     }
+
 
     @Override
     public void onClick(View v) {
@@ -123,10 +127,10 @@ public class MainActivity extends WearableActivity implements View.OnClickListen
         @Override
         public void onFinish() {
             Context context = getApplicationContext();
-            CharSequence text = MantraGenerator.getRandomDefaultMantra();
+            CharSequence currentMantra = MantraGenerator.getRandomDefaultMantra();
             int duration = Toast.LENGTH_SHORT;
 
-            Toast toast = Toast.makeText(context, text, duration);
+            Toast toast = Toast.makeText(context, currentMantra, duration);
             toast.show();
 
             Vibrator vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
@@ -134,6 +138,7 @@ public class MainActivity extends WearableActivity implements View.OnClickListen
             //-1 - don't repeat
             final int indexInPatternToRepeat = -1;
             vibrator.vibrate(vibrationPattern, indexInPatternToRepeat);
+            currentMantraT.setText(currentMantra);
 
             this.start();
         }
@@ -168,9 +173,11 @@ public class MainActivity extends WearableActivity implements View.OnClickListen
         RelativeLayout bgElement = (RelativeLayout) findViewById(R.id.container);
         bgElement.setBackgroundColor(Color.BLACK);
         countDownTimerT.setTextColor(Color.GREEN);
-        countdownB.setBackgroundColor(Color.DKGRAY);
-        countdownB.setTextColor(Color.CYAN);
+        countdownB.setBackgroundColor(Color.BLACK);
+        countdownB.setTextColor(Color.LTGRAY);
         plusThirtyB.setVisibility(View.INVISIBLE);
+        currentMantraT.setTextColor(Color.LTGRAY);
+        currentMantraT.setVisibility(View.VISIBLE);
     }
 
     private void setDisplayModeInteractive() {
@@ -178,6 +185,7 @@ public class MainActivity extends WearableActivity implements View.OnClickListen
         bgElement.setBackgroundColor(Color.WHITE);
         countDownTimerT.setTextColor(Color.BLACK);
         plusThirtyB.setVisibility(View.VISIBLE);
+        currentMantraT.setVisibility(View.GONE);
     }
 
     private void updateDisplay() {
