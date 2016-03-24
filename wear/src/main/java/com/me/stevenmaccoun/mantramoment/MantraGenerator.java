@@ -19,7 +19,13 @@ public class MantraGenerator {
             "HEART",
             "BREATH",
             "THAT IS MYSELF",
-            "I AM THAT"
+            "I AM THAT",
+            "SKULL/TEETH",
+            "FEET",
+            "NOW",
+            "Outside Sounds",
+            "Inner Body",
+            "Sight Perceptions"
     };
 
     public static String getRandomDefaultMantra(){
