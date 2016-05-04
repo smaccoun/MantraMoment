@@ -33,7 +33,7 @@ public class MainActivity extends WearableActivity implements View.OnClickListen
     private TextView currentMantraT;
 
     private RepeatCountdownTimer repeatCountdownTimer;
-    private long startTimeMillis = 30000;
+    private long startTimeMillis = 480000;
     private static final long countdownIntervalMillis = 1000;
     private DateFormat sdf = new SimpleDateFormat("HH:mm:ss");
     private enum TIMER_BUTTON_STATE

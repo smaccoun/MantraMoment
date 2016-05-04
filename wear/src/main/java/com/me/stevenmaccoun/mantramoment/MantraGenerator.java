@@ -11,7 +11,7 @@ public class MantraGenerator {
             "I AM",
             "I AM EMBODIED",
             "I EXIST",
-            "PALM ARWENESS",
+            "PALM AWARENESS",
             "GRAVITY",
             "ORGANISM",
             "CELL STATE",
@@ -25,7 +25,13 @@ public class MantraGenerator {
             "NOW",
             "Outside Sounds",
             "Inner Body",
-            "Sight Perceptions"
+            "Sight Perceptions",
+            "Animal",
+            "Monkey",
+            "Intersubjective Space",
+            "Sovereign",
+            "Headless",
+            "Witness"
     };
 
     public static String getRandomDefaultMantra(){
